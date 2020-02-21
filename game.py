@@ -40,9 +40,35 @@ class Game:
                             self.player.remaining_guesses -= 1
                             print(f"Nope! The mystery word doesn't contain that letter! You have {self.player.remaining_guesses} incorrect guesses remaining!""\n")
                             guess_list.append(guess)
+                    else:
+                        print("Guesses must consist of single letters ONLY! Try again!""\n")
+                    if self.player.remaining_guesses == 0:
+                        self.game_over(word)
+                    break
+            playing = False
+            self.you_win(word)
 
 
 
+    def game_over(self, word):
+        print(f"Sorry! You're out of guesses! The mystery word was '{word}'! Would you like to play again?""\n")
+        play_again = input("Press R to play again! Press any other key to exit! ")
+        play_again = play_again.lower()
+        if play_again == "r":
+            Game().play_game()
+        else:
+            print("See you next time!")
+            exit()
+
+    def you_win(self, word):
+        print(f"Hot damn! You guessed the mystery word: {word}! Congratulations, you big brain genius! Would you like to play again?""\n")
+        play_again = input("Press R to play again! Press any other key to exit! ")
+        play_again = play_again.lower()
+        if play_again == "r":
+            Game().play_game()
+        else:
+            print("See you next time!")
+            exit()
 
     def  get_index_pos(self, selected_word, guess):
         index_pos_list = []
