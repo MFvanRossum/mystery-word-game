@@ -7,14 +7,24 @@ class Game:
         self.hidden_word = []
 
     def play_game(self):
-        with open("sample-words.txt", "r") as f:
+        with open("words.txt", "r") as f:
             data = f.read()
-            word_list = [word for word in data.split()]
+            print("Welcome to Mystery Word! Guess the correct letters to reveal the hidden word!""\n")
+            print("There are 3 difficulties:""\n""(E)asy provides a word between 4-6 letters.""\n""(M)edium provides words between 7-8 letters.""\n""(H)ard provides words with 8 or more letters!""\n")
+            diff = input("Choose a difficulty! ")
+            diff = diff.lower()
+            if diff == "e" or diff == "easy":
+                word_list = [word for word in data.split() if len(word) > 3 and len(word) < 7]
+            elif diff == "m" or diff == "medium":
+                word_list = [word for word in data.split() if len(word) > 6 and len(word) < 9]
+            elif diff == "h" or diff == "hard":
+                word_list = [word for word in data.split() if len(word) > 8]
+            else: 
+                print("Please select a valid difficulty.")
+                Game().play_game()
             word = random.choice(word_list)
             word_len = len(word)
             selected_word = list(word)
-            print("Welcome to Mystery Word! Guess the correct letters to reveal the hidden word!")
-            print(selected_word)
             hidden_word = ["_"] * word_len
             guess_list = []
             print(" " .join(hidden_word))
@@ -57,7 +67,7 @@ class Game:
         if play_again == "r":
             Game().play_game()
         else:
-            print("See you next time!")
+            print("\n""See you next time!")
             exit()
 
     def you_win(self, word):
@@ -67,7 +77,7 @@ class Game:
         if play_again == "r":
             Game().play_game()
         else:
-            print("See you next time!")
+            print("\n""See you next time!")
             exit()
 
     def  get_index_pos(self, selected_word, guess):
