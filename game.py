@@ -28,7 +28,7 @@ class Game:
             else: 
                 print("Please select a valid difficulty.")
                 Game().play_game()
-            word = random.choice(word_list)
+            word = random.choice(word_list).lower()
             word_len = len(word)
             selected_word = list(word)
             hidden_word = ["_"] * word_len
@@ -59,12 +59,9 @@ class Game:
                             print(f"Nope! The mystery word doesn't contain that letter! You have {self.player.remaining_guesses} incorrect guesses remaining!""\n")
                             guess_list.append(guess)
                     elif guess == "hint":
-                        hint = random.choice(selected_word)
+                        print(word)
                         if self.player.hint != 0:
-                            if hint not in guess_list:
-                                print(f"The mystery word containts the letter: {hint}""\n")
-                                self.player.hint -= 1
-                                print(f"You have {self.player.hint} hints remaining.""\n")
+                            self.show_hint(selected_word, guess_list)
                         else:
                             print("You are out of hints!""\n")
                     else:
@@ -107,7 +104,16 @@ class Game:
                 index_pos += 1
             except:
                 break
-        return index_pos_list                    
+        return index_pos_list   
+
+    def show_hint(self, selected_word, guess_list):
+        hint = random.choice(selected_word)
+        if hint not in guess_list:
+            print(f"The mystery word containts the letter: {hint}""\n")
+            self.player.hint -= 1
+            print(f"You have {self.player.hint} hints remaining.""\n")
+        else:
+            self.show_hint(selected_word, guess_list)                 
 
 
 
