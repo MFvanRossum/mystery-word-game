@@ -59,7 +59,6 @@ class Game:
                             print(f"Nope! The mystery word doesn't contain that letter! You have {self.player.remaining_guesses} incorrect guesses remaining!""\n")
                             guess_list.append(guess)
                     elif guess == "hint":
-                        print(word)
                         if self.player.hint != 0:
                             self.show_hint(selected_word, guess_list)
                         else:
