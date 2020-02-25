@@ -15,10 +15,16 @@ class Game:
             diff = diff.lower()
             if diff == "e" or diff == "easy":
                 word_list = [word for word in data.split() if len(word) > 3 and len(word) < 7]
+                self.player.remaining_guesses = 10
+                self.player.hint = 1
             elif diff == "m" or diff == "medium":
                 word_list = [word for word in data.split() if len(word) > 6 and len(word) < 9]
+                self.player.remaining_guesses = 8
+                self.player.hint = 2
             elif diff == "h" or diff == "hard":
                 word_list = [word for word in data.split() if len(word) > 8]
+                self.player.remaining_guesses = 6
+                self.player.hint = 3
             else: 
                 print("Please select a valid difficulty.")
                 Game().play_game()
@@ -30,6 +36,8 @@ class Game:
             print(" " .join(hidden_word))
             print("\n")
             print(f"Your mystery word has {word_len} letters.")
+            if self.player.hint != 0:
+                print(f"Enter 'hint' if you need help! You have {self.player.hint} hints remaining.")
             while "_" in hidden_word:
                 playing = True
                 while playing:
@@ -50,6 +58,15 @@ class Game:
                             self.player.remaining_guesses -= 1
                             print(f"Nope! The mystery word doesn't contain that letter! You have {self.player.remaining_guesses} incorrect guesses remaining!""\n")
                             guess_list.append(guess)
+                    elif guess == "hint":
+                        hint = random.choice(selected_word)
+                        if self.player.hint != 0:
+                            if hint not in guess_list:
+                                print(f"The mystery word containts the letter: {hint}""\n")
+                                self.player.hint -= 1
+                                print(f"You have {self.player.hint} hints remaining.""\n")
+                        else:
+                            print("You are out of hints!""\n")
                     else:
                         print("Guesses must consist of single letters ONLY! Try again!""\n")
                     if self.player.remaining_guesses == 0:
@@ -102,7 +119,8 @@ class Game:
 class Player:
     def __init__(self, name):
         self.name = name 
-        self.remaining_guesses = 8
+        self.remaining_guesses = None
+        self.hint = None
 
     def __str__(self):
         return f"{self.name}"
